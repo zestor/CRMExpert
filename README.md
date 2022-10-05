@@ -11,8 +11,8 @@ Salesforce CRM Expert Using OpenAI, TensorFlow, Numpy.
 7. A human is checking the chat answers JSON files to make sure they are the best answers. Or even better preloading the directory based on a good source such as consultant answers to Email request/response, Slack request/response threads, Salesforce Support Case request/response, etc...
 
 # Future:
-## Simultaneous query Google for user question
-- Collect Google urls
+## Simultaneous query search engines for user question
+- Collect search engine urls
 - Filter out garbage urls, not relevant, have no parseable content, etc...
 - Collect text content from urls
 - Summarize with OpenAI
