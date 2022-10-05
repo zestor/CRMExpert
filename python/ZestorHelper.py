@@ -115,6 +115,41 @@ class ZestorHelper:
                 print('Error communicating with NLP Cloud:', oops)
                 time.sleep(1)
 
+    def openai_callout_noretry(prompt, engine='text-davinci-002', temp=1, tokens=256, top_p=1.0, freq_pen=0.0, pres_pen=0.0, stop_strings=['zxcv']):
+        max_retry = 1
+        retry = 1
+        #prompt = prompt.encode(encoding='ASCII',errors='ignore').decode('ASCII',errors='ignore')
+        #print(type(prompt))
+        while retry <= max_retry:
+            try:
+                #print('OpenAI callout\r\n%s\r\n' % (prompt))
+                response = openai.Completion.create(
+                    engine=engine,
+                    prompt=prompt,
+                    temperature=temp,
+                    max_tokens=tokens,
+                    top_p=top_p,
+                    frequency_penalty=freq_pen,
+                    presence_penalty=pres_pen,
+                    stop=stop_strings)
+                #print('OpenAI callout after')
+                #print(type(response))
+                text = response['choices'][0]['text'].strip()
+
+                #print('OpenAI response #1\r\n%s' % (text))
+                text = re.sub('\s+', ' ', text)
+
+                filename = '%s.txt' % time()
+
+                ZestorHelper.mkdir_if_not_exists('logs')
+                ZestorHelper.mkdir_if_not_exists('logs/openai')
+
+                ZestorHelper.save_file('logs/openai/%s' % filename, prompt + '\n\n==========\n\n' + text)
+                return text
+            except Exception as oops:
+                retry += 1
+                print('Error communicating with OpenAI:', oops)
+
     def openai_callout(prompt, engine='text-davinci-002', temp=1, tokens=256, top_p=1.0, freq_pen=0.0, pres_pen=0.0, stop_strings=['zxcv']):
         max_retry = 1
         retry = 1
@@ -178,7 +213,7 @@ class ZestorHelper:
 
                     text = text + text2
                 
-                filename = '%s_gpt3.txt' % time()
+                filename = '%s.txt' % time()
 
                 ZestorHelper.mkdir_if_not_exists('logs')
                 ZestorHelper.mkdir_if_not_exists('logs/openai')
