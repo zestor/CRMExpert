@@ -4,8 +4,7 @@
 import json
 import os
 import random
-import re
-from time import sleep, time
+from time import time
 
 import numpy as np
 import tensorflow_hub as hub
