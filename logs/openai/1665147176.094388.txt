@@ -1,0 +1,8 @@
+Given the following article, List URL references:
+Article:Salesforce territory management enables you to divide your salesforce into manageable units so you can more effectively target your sales and marketing efforts. You can define territories based on criteria such as geography, industry, or customer size, and then assign users to those territories. Salesforce territory management also allows you to automatically assign leads and opportunities to the appropriate territories based on rules you define.
+Output:
+
+
+==========
+
+https://help.salesforce.com/articleView?id=territory_mgmt_about.htm&type=5 https://www.salesforce.com/products/territory-management/

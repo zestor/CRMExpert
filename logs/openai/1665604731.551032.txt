@@ -1,0 +1,8 @@
+Given the following article, List URL references:
+Article:The territory management assignment rules limit is 15 per territory.
+Output:
+
+
+==========
+
+https://help.salesforce.com/articleView?id=territory_management_assignment_rules_limitations.htm&type=5

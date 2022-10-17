@@ -1,4 +1,5 @@
 {
+ "date": "10-01-2022",
  "request": "What is the territory assignment rules limit?",
  "response": "Territory Model Allocations\n4 models in Developers, Performance, and Unlimited. 2 models in Enterprise.\nTerritory Default Allocations\nBy default, each territory model can have up to 1,000 territories. If you’re using Developer Edition or Enterprise Edition, the maximum allocation is 1,000 territories per model. If you’re using Performance Edition or Unlimited Edition, you can add up to 99,999 territories to a territory model by contacting Salesforce Customer Support. Requests for more than 20,000 territories per model are subject to approval.\nAssignment Rule Allocations\nTerritories can have up to 15 assignment rules each.\nAssigned User Allocation\nYou can assign up to approximately 1,950 users to a territory via the UI.https://help.salesforce.com/s/articleView?id=sf.tm2_allocations.htm&type=5",
  "vector": [

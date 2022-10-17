@@ -4,6 +4,7 @@
 import json
 import os
 import random
+from datetime import date
 from time import time
 
 import numpy as np
@@ -79,26 +80,39 @@ if __name__ == '__main__':
         semantic_similar_searches = search_prior_chat(prior_chat, user_request_vector)
 
         ai_response = ''
+        ai_references = ''
         if len(semantic_similar_searches) > 0 and semantic_similar_searches[0]['rank'] > 0.9:
-            foo = ['As I mentioned before, ', 'From our prior discussion, ', 'As I previously mentioned, ', 'From before, ', 'As before, ']
+            foo = ['As I mentioned before, ', 'From our prior discussion, ', 'As I previously mentioned, ']
             ai_response = random.choice(foo)
             ai_response += semantic_similar_searches[0]['response']
         else:
             # Create prior knowledge Q&A
-            prior_knowledge = ' '.join([knowledge['response'] for knowledge in semantic_similar_searches])
-            prior_knowledge = prior_knowledge.strip()
+            prior_knowledge = ''
+            for knowledge in semantic_similar_searches:
+                prior_knowledge += '\nUSER:%s' % knowledge['request']
+                prior_knowledge += '\nEXPERT:%s' % knowledge['response']
+                prior_knowledge = prior_knowledge.strip()
 
             #print('Prior knowledge: %s' % prior_knowledge)
+            prior_knowledge += '\nUSER:%s' % user_request
+            prior_knowledge = prior_knowledge.strip()
+            prior_knowledge += '\nEXPERT:'
 
             # Create prompt
-            prompt = ZestorHelper.open_file('./promptTemplates/expert.txt').replace('<<USER_REQUEST>>', user_request).replace('<<PRIOR_KNOWLEDGE>>', prior_knowledge)
+            prompt = ZestorHelper.open_file('./promptTemplates/expert.txt').replace('<<USER_REQUEST>>', prior_knowledge)
             
             # Ask OpenAI
             ai_response = ZestorHelper.openai_callout_noretry(prompt, 'text-davinci-002', 0.5)
 
+            # Get Url References
+            prompt = 'Given the following article, List URL references:\r\nArticle:<<CONTENT>>\r\nOutput:\r\n'.replace('<<CONTENT>>', ai_response)
+
+            # Ask OpenAI
+            ai_references = ZestorHelper.openai_callout_noretry(prompt, 'text-davinci-002', 0.5)
+
             # Save Q&A to disk
-            prior_chat = save_chat(prior_chat, {'request': user_request, 'vector': user_request_vector, 'response': ai_response})
-        print('\nEXPERT:', ai_response)
+            prior_chat = save_chat(prior_chat, {'date': str(date.today()), 'request': user_request, 'vector': user_request_vector, 'response': ai_response, 'references': ai_references})
+        print('\nEXPERT:' +  ai_response + '\r\nReferences:' + ai_references)
 
 
         
