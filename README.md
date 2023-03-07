@@ -1,5 +1,5 @@
 # CRMExpert
-Salesforce CRM Expert Using OpenAI, TensorFlow, Numpy.
+CRM Expert Using OpenAI, TensorFlow, Numpy.
 
 # General assumptions:
 1. Past chat answers to questions which were persisted to disk are the best answers
